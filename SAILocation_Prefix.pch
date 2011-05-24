@@ -1,0 +1,8 @@
+//
+// Prefix header for all source files of the 'SAILocation' target in the 'SAILocation' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+    #import <UIKit/UIKit.h>
+#endif
