@@ -12,6 +12,7 @@
 
 @synthesize locator;
 @synthesize hereLabel, here2Label, posLabel;
+@synthesize mapImgView;
 
 /*
 // The designated initializer. Override to perform setup that is required before the view is loaded.
@@ -37,6 +38,11 @@
     [super viewDidLoad];
     
     locator = [[Location_Updater alloc] init:self];
+    
+    //setup background image
+    mapImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bgmap.png"]];
+    [self.view addSubview:mapImgView];
+
 	
 	hereLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 120, 40, 14)];
 	hereLabel.font = [UIFont fontWithName:@"Helvetica-Bold"  size:12.0f];
@@ -59,6 +65,7 @@
 	posLabel.text = @"current location";
 	[self.view addSubview:posLabel];	
 
+    
 }
 
 -(void)updateLocation
