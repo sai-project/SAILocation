@@ -13,6 +13,7 @@
 @synthesize locator;
 @synthesize hereLabel, here2Label, posLabel;
 @synthesize mapImgView;
+@synthesize mapView;
 
 /*
 // The designated initializer. Override to perform setup that is required before the view is loaded.
@@ -38,11 +39,29 @@
     [super viewDidLoad];
     
     locator = [[Location_Updater alloc] init:self];
-    
+
     //setup background image
     mapImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bgmap.png"]];
     [self.view addSubview:mapImgView];
+    
 
+    // setup MKMapView
+    
+    mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 280, 320, 480-280)];
+    mapView.delegate = self;
+    mapView.showsUserLocation = YES;
+    CLLocationCoordinate2D coordinate;
+	coordinate.latitude = 35.385912;
+	coordinate.longitude = 136.621407;
+    //	[mapView setCenterCoordinate:coordinate animated:NO];
+	MKCoordinateRegion zoom = mapView.region;
+	zoom.span.latitudeDelta = 0.0025;
+	zoom.span.longitudeDelta = 0.0025;
+	zoom.center = coordinate;
+	[mapView setRegion:zoom animated:YES];
+
+    [self.view addSubview:mapView];
+    
 	
 	hereLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 120, 40, 14)];
 	hereLabel.font = [UIFont fontWithName:@"Helvetica-Bold"  size:12.0f];
@@ -65,6 +84,14 @@
 	posLabel.text = @"current location";
 	[self.view addSubview:posLabel];	
 
+    
+}
+
+
+- (void)mapView:(MKMapView *)map regionDidChangeAnimated:(BOOL)animated
+{
+    float lat = map.region.center.latitude;
+    float lon = map.region.center.longitude;
     
 }
 
@@ -115,7 +142,12 @@
 	py = 240.0 + (lon - clon) / ydrft ;
     
 	[here2Label setCenter:CGPointMake(px, py)];
-	
+    
+    CLLocationCoordinate2D coord;
+    coord.latitude = lat;
+    coord.longitude = lon;
+    [mapView setCenterCoordinate:coord];
+
 }
 
 
